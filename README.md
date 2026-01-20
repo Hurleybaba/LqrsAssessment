@@ -76,7 +76,7 @@ All tables include timestamps (`created_at`, `updated_at`) for audit trails.
 1.  **Clone the repository**
 
     ```bash
-    git clone <your-repo-url>
+    git clone https://github.com/Hurleybaba/LqrsAssessment
     cd assessment
     ```
 
