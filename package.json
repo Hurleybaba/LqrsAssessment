@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "dev": "nodemon --exec node --loader ts-node/esm src/server.ts",
+    "dev": "nodemon",
     "migrate:make": "tsx node_modules/knex/bin/cli.js migrate:make -x ts",
     "migrate:latest": "tsx node_modules/knex/bin/cli.js migrate:latest",
     "build": "rimraf dist && tsc",
