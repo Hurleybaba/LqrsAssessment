@@ -3,19 +3,20 @@ import { globalErrorHandler } from "./middlewares/error.js";
 import { AppError } from "./utils/AppError.js";
 import routes from "./routes.js";
 
+// Initialize Express application instance
 const app: Express = express();
 
 app.use(express.json());
 
-//Routes
+// Mount API routes
 app.use(routes);
 
-// 404 handler
+// Catch-all handler for undefined routes and return 404 error
 app.all(/(.*)/, (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-//Global Error Hander
+// Centralized global error handler middleware
 app.use(globalErrorHandler);
 
 export default app;

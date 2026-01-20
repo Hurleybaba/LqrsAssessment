@@ -8,21 +8,23 @@ import { AppError } from "../../utils/AppError.js";
 const userRepo = new UserRepository();
 const walletRepo = new WalletRepository();
 
+// Service layer for user authentication operations
 export class AuthService {
+  // Register new user: check blacklist, create user and wallet in atomic transaction
   static async registerUser(data: {
     email: string;
     first_name: string;
     last_name: string;
   }) {
-    // 1. Check existence
+    // Verify user doesn't already exist
     const existing = await userRepo.findByEmail(data.email);
     if (existing) throw new AppError("User already exists", 400);
 
-    // 2. Blacklist check
+    // Check if email is blacklisted via Adjutor service
     const isBlacklisted = await AdjutorService.isBlacklisted(data.email);
     if (isBlacklisted) throw new AppError("User is blacklisted", 403);
 
-    // 3. Create User & Wallet Atomic Transaction
+    // Create user and wallet in single atomic transaction
     return db.transaction(async (trx) => {
       const userId = crypto.randomUUID();
 
@@ -46,10 +48,11 @@ export class AuthService {
         trx,
       );
 
-      return userId; // Faux token
+      return userId; // Return user ID as faux authentication token
     });
   }
 
+  // Retrieve user profile with associated wallet information
   static async getUser(userId: string) {
     const user = await userRepo.findById(userId);
     if (!user) throw new AppError("User not found", 404);

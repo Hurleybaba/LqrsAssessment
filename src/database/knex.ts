@@ -1,6 +1,7 @@
 import knex from "knex";
 import { config } from "../config/knex.config.js";
 
+// User table schema
 export interface User {
   id: string;
   email: string;
@@ -9,6 +10,7 @@ export interface User {
   created_at: Date;
 }
 
+// Wallet table schema
 export interface Wallet {
   id: string;
   user_id: string;
@@ -17,6 +19,7 @@ export interface Wallet {
   created_at: Date;
 }
 
+// Transaction table schema
 export interface TransactionModel {
   id: string;
   wallet_id: string;
@@ -27,6 +30,7 @@ export interface TransactionModel {
   created_at: Date;
 }
 
+// Transfer table schema for tracking wallet-to-wallet transfers
 export interface Transfer {
   id: string;
   sender_wallet_id: string;

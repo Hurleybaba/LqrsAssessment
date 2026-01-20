@@ -2,6 +2,7 @@ import { config } from "dotenv";
 
 config();
 
+// Configuration interface for all environment variables
 interface Config {
   PORT: number;
   DB_HOST: string;
@@ -13,7 +14,7 @@ interface Config {
   NODE_ENV: "development" | "production" | "test";
 }
 
-// Helper to ensure a variable exists
+// Retrieve and validate environment variable, throw error if missing
 const getEnv = (key: string, defaultValue?: string): string => {
   const value = process.env[key] || defaultValue;
   if (value === undefined) {
@@ -22,7 +23,7 @@ const getEnv = (key: string, defaultValue?: string): string => {
   return value;
 };
 
-// Helper to parse numbers safely
+// Retrieve environment variable and safely parse as integer
 const getEnvNumber = (key: string, defaultValue?: string): number => {
   const value = getEnv(key, defaultValue);
   const parsed = parseInt(value, 10);

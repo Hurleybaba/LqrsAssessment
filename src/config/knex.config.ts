@@ -1,6 +1,7 @@
 import { Knex } from "knex";
 import { env } from "./env.js";
 
+// Database connection configuration for Knex ORM
 export const config: Knex.Config = {
   client: "mysql2",
   connection: {
@@ -9,13 +10,13 @@ export const config: Knex.Config = {
     password: env.DB_PASS,
     database: env.DB_NAME,
     port: env.DB_PORT,
-    // Critical for production: maintains the connection alive
     multipleStatements: true,
-    timezone: "Z"
+    timezone: "Z",
   },
+  // Connection pool configuration
   pool: {
     min: 2,
-    max: 10, // Optimize based on server size. 10 is good for Heroku free tier.
+    max: 10,
   },
   migrations: {
     directory: "./src/database/migrations",
@@ -26,5 +27,3 @@ export const config: Knex.Config = {
     extension: "ts",
   },
 };
-
-

@@ -1,7 +1,7 @@
 {
   "name": "assessment",
   "version": "1.0.0",
-  "description": "",
+  "description": "A demo mobile lending app that requires wallet functionality for users to store funds, make transactions, and manage their finances securely.",
   "main": "server.ts",
   "scripts": {
     "dev": "nodemon",

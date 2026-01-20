@@ -7,7 +7,7 @@ import {
   WithdrawDto,
 } from "./wallet.validation.js";
 
-// Helper to ensure user exists
+// Extract and validate authenticated user ID from request
 const getUserId = (req: Request): string => {
   if (!req.user || !req.user.id) {
     throw new AppError("User not authenticated", 401);
@@ -15,6 +15,7 @@ const getUserId = (req: Request): string => {
   return req.user.id;
 };
 
+// Add funds to user's wallet
 export const fund = async (
   req: Request<{}, {}, FundWalletDto>,
   res: Response,
@@ -29,6 +30,7 @@ export const fund = async (
   }
 };
 
+// Transfer funds from user's wallet to another user's wallet
 export const transfer = async (
   req: Request<{}, {}, TransferDto>,
   res: Response,
@@ -47,6 +49,7 @@ export const transfer = async (
   }
 };
 
+// Withdraw funds from user's wallet
 export const withdraw = async (
   req: Request<{}, {}, WithdrawDto>,
   res: Response,
@@ -54,16 +57,14 @@ export const withdraw = async (
 ) => {
   try {
     const userId = getUserId(req);
-    const result = await WalletService.withdraw(
-      userId,
-      req.body.amount,
-    );
+    const result = await WalletService.withdraw(userId, req.body.amount);
     res.status(200).json({ status: "success", data: result });
   } catch (e) {
     next(e);
   }
 };
 
+// Retrieve transaction history for user's wallet
 export const history = async (
   req: Request,
   res: Response,
@@ -80,7 +81,7 @@ export const history = async (
   }
 };
 
-// Add this export
+// Retrieve current wallet balance and currency
 export const getBalance = async (
   req: Request,
   res: Response,

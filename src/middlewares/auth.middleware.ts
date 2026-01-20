@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { AppError } from "../utils/AppError.js";
 import db from "../database/knex.js";
 
+// Authenticate user by extracting Bearer token and verifying user exists in database
 export const fauxAuth = async (
   req: Request,
   res: Response,
@@ -10,6 +11,7 @@ export const fauxAuth = async (
 ) => {
   let token;
 
+  // Extract token from Authorization header (Bearer <token>)
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -23,7 +25,7 @@ export const fauxAuth = async (
     );
   }
 
-  // FAUX AUTH: We expect the token to be the USER ID for simplicity
+  // Faux auth: treat token as user ID and fetch user record
   const user = await db("users").where({ id: token }).first();
 
   if (!user) {
