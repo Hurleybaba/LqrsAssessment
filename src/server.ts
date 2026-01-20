@@ -1,22 +1,8 @@
-import express, { Express, Request, Response, NextFunction } from "express";
-import { globalErrorHandler } from "./middlewares/error.js";
-import { AppError } from "./utils/AppError.js";
-import routes from "./routes.js";
-import "./types/express.js";
+import app from "./app.js";
+import { env } from "./config/env.js";
 
-const app: Express = express();
+const {PORT } = env;
 
-app.use(express.json());
-
-//Routes
-app.use(routes);
-
-// 404 handler
-app.all(/(.*)/, (req: Request, res: Response, next: NextFunction) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+app.listen(PORT, () => {
+  console.log(`[server]: Server is running at http://localhost:${PORT}`)
 });
-
-//Global Error Hander
-app.use(globalErrorHandler);
-
-export default app;
