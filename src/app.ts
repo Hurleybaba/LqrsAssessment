@@ -11,17 +11,17 @@ app.use(express.json());
 // Mount API routes
 app.use(routes);
 
-// Catch-all handler for undefined routes and return 404 error
-app.all(/(.*)/, (req: Request, res: Response, next: NextFunction) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-});
-
 //route for health check
 app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({
     status: "success",
     message: "API is healthy",
   });
+});
+
+// Catch-all handler for undefined routes and return 404 error
+app.all(/(.*)/, (req: Request, res: Response, next: NextFunction) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 // Centralized global error handler middleware
